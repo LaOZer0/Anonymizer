@@ -22,10 +22,12 @@ def HashToInt(hashes: list) -> int:
 
 
 def Anonymize(path: str):
-    with open(path, encoding='utf-8', mode='r+') as original_db:
+    with open(path, encoding="utf-8", mode='r') as original_db:
         original_db_reader = csv.reader(original_db, delimiter=';')
-        count = len(list(original_db_reader)) - 1
-        len_fake_db = max(1000000, count * 3)
+        count = 0
+        for _ in original_db_reader:
+            count += 1
+        len_fake_db = min(100000, count * 3)
         hashes = []
         flag = 0
         for row in original_db_reader:
@@ -37,7 +39,7 @@ def Anonymize(path: str):
                 m_name = row[0].split()[2]
                 hashes.append(HashToInt(hashFunction(s_name, f_name, m_name)) % 1000000014000000119 % len_fake_db)
         fake_db = open('fake_db.csv', encoding='utf-8', mode='r+')
-        fake_db_writer = csv.writer(fake_db, delimiter=';')
+        fake_db_writer = csv.writer(fake_db, delimiter=';', lineterminator="\r")
         already_write_in_fake_db = 0
         while len_fake_db - already_write_in_fake_db != 0:
             count_write = min(1000, len_fake_db - already_write_in_fake_db)
@@ -54,15 +56,18 @@ def Anonymize(path: str):
                 fake_db_writer.writerow(help_list)
                 help_list.clear()
             already_write_in_fake_db += count_write
-        new_original_db = open(path)
-        original_db_writer = csv.writer(original_db, delimiter=';')
-        fake_db_reader = csv.reader(fake_db, delimiter=';')
-        for i in range(1, count + 1):
+
+        first_line = list(original_db)[0].split(';')
+
+        new_original_db = open(path, encoding='utf-8', mode='w')
+        new_original_db_writer = csv.writer(new_original_db, delimiter=';', lineterminator="\r")
+        fake_db_list = list(fake_db)
+        new_original_db_writer.writerow(first_line)
+        for i in range(len(hashes)):
+            new_original_db_writer.writerow(fake_db_list[hashes[i] - 1].split(';'))
+        fake_db.close()
+        new_original_db.close()
+    return 0
 
 
-
-
-
-
-
-# print(HashToInt(Хэш посчитанный в hashFunction) % 1000000014000000119 % Кол-во строк в нашей фейк дб)
+Anonymize('original_db.csv')
