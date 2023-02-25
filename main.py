@@ -6,11 +6,9 @@ from hasher import COUNT_WRITE, DbHasher
 
 def Anonymize(path: str):
     print(next(hasher))
-    next(hasher)
-    print(hasher)
+    print(next(hasher))
     print("penis")
-    next(hasher)
-    print(hasher)
+    print(next(hasher))
     with open(path, encoding="utf-8", mode='r') as original_db:
 
             with open(path, encoding='utf-8', mode='w') as new_original_db:
@@ -23,3 +21,4 @@ def Anonymize(path: str):
 
 if __name__ == "__main__":
     generate_fake_db("gen.csv")
+    Anonymize("gen.csv")
