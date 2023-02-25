@@ -3,7 +3,7 @@ import datetime
 from russian_names import RussianNames
 from utils import *
 
-GENERATION_PART = 10 # set 1000
+GENERATION_PART = 100 # set 1000
 
 def generate_birthday(count: int) -> list:
     dates = []

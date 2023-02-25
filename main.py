@@ -1,24 +1,29 @@
+import os
 import csv
 from generators import generate_fake_db
 from hasher import COUNT_WRITE, DbHasher
 
 
-
 def Anonymize(path: str):
-    print(next(hasher))
-    print(next(hasher))
-    print("penis")
-    print(next(hasher))
-    with open(path, encoding="utf-8", mode='r') as original_db:
+    # Генерируем фейковые данные
+    generate_fake_db("gen.csv")
 
-            with open(path, encoding='utf-8', mode='w') as new_original_db:
-                new_original_db_writer = csv.writer(new_original_db, delimiter=';', lineterminator="\r")
-                fake_db_list = list(fake_db)
-                new_original_db_writer.writerow(first_line)
-                for i in range(len(hashes)):
-                    new_original_db_writer.writerow(fake_db_list[hashes[i] - 1].split(';'))
-    return 0
+    hasher = DbHasher('gen.csv')
+
+    # Вот тут надо будет сделать построчную запись для MySQL, TODO
+    # Именно для этого сделан итератор
+    # Но так как тут пока только csv то 
+    with open('tmp.csv', "w", encoding="utf-8") as out_file:
+        out_file.write("")
+    with open("gen.csv", "r", encoding="utf-8") as file:
+        lines = file.readlines()
+    with open('tmp.csv', "a", encoding="utf-8") as out_file:
+        for i in hasher:
+            if not i:
+                break
+            out_file.write(lines[i].strip() + "\n")
+    os.rename("tmp.csv", path)
+
 
 if __name__ == "__main__":
-    generate_fake_db("gen.csv")
-    Anonymize("gen.csv")
+    Anonymize("result.csv")
