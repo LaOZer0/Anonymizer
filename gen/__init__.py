@@ -5,7 +5,7 @@ from .hasher import COUNT_WRITE, DbHasher
 
 def Anonymize(path: str):
     # Генерируем фейковые данные
-    generate_fake_db("gen.csv")
+    generate_fake_db()
 
     hasher = DbHasher('gen.csv')
 

@@ -5,6 +5,5 @@ CREATE TABLE IF NOT EXISTS users(
   lastname TEXT,
   sex INT,
   snils TEXT NOT NULL,
-
-  email TEXT NOT NULL,
+  email TEXT NOT NULL
 )

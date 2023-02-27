@@ -11,7 +11,7 @@ def add_row(user):
     :param user:
     """
     sql = ''' INSERT INTO users(firstname,middlename,lastname,sex,snils,email)
-              VALUES(?,?,?) '''
+              VALUES(?,?,?,?,?,?) '''
     cur = con.cursor()
     cur.execute(sql, user)
     con.commit()

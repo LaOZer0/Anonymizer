@@ -7,5 +7,7 @@ cur = con.cursor()
 
 def init_db():
     with open('db/create_fake_db.sql', 'r') as sql_file:
-        con.executescript(sql_file.read())
-    return cur
+        sql_script = sql_file.read()
+
+    cur.executescript(sql_script)
+    con.commit()

@@ -18,7 +18,7 @@ SEPARATORS = "._"
 def generate_email(firstname, lastname):
     count_chars = random.choice([1, len(firstname)])
     names = [firstname[:count_chars], lastname]
-    names = [translit(n, "en") for n in names]
+    names = [translit(n, "ru") for n in names]
     random.shuffle(names)
     sep = random.choice(SEPARATORS)
     return sep.join(names) + random.choice(TAILS)
@@ -80,9 +80,7 @@ def generate_listSNILS(count: int) -> list:
     return list(set_SNILS)
 
 
-def generate_fake_db(
-        step: int = GENERATION_PART, count_rows: int = COUNT_WRITE
-):
+def generate_fake_db(count_rows: int = 1000000):
     """
     generate_fake_db(filename: str, count_rows: int)
     generate fake db to filename csv
@@ -92,6 +90,7 @@ def generate_fake_db(
     # for create file, if not exists
     # TODO :Передать ъто костыль
     fake_db_size = 0
+    step = count_rows // 10000
     for i in range(0, count_rows, step):
         count_write = min(step, count_rows - fake_db_size)
         list_names = generate_name(count_write)
