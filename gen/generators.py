@@ -114,6 +114,6 @@ def generate_fake_db(count_rows: int = 1000000, step: int = 100):
             snils = list_SNIlS[i]
             add_row([
                 names[0], names[1], names[2], names[3],
-                snils, generate_email(names[2], names[0])
+                snils
             ])
         fake_db_size += step
