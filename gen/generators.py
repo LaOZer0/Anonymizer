@@ -3,12 +3,15 @@ import datetime
 from russian_names import RussianNames
 from utils import *
 
-GENERATION_PART = 100 # set 1000
+
+GENERATION_PART = 100  # set 1000
+
 
 def generate_birthday(count: int) -> list:
     dates = []
     for i in range(count):
-        months = random.choice(["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"])
+        months = random.choice(
+            ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"])
         year_today = datetime.date.today().year
         year = str(random.randint(year_today - 80, year_today - 15))
         if months == "02":
@@ -42,6 +45,7 @@ def generate_name(count: int) -> list:
         list_names.append(list_women[i])
     return list_names
 
+
 def generate_listSNILS(count: int) -> list:
     string = '0123456789'
     set_SNILS = set()
@@ -52,9 +56,12 @@ def generate_listSNILS(count: int) -> list:
                 SNILS += random.choice(string) + '-'
             else:
                 SNILS += random.choice(string)
-        SNILS += make_control_sum(calculate_sumSNILS(SNILS))
+        SNILS += make_control_sum(
+            calculate_sumSNILS(SNILS)
+        )
         set_SNILS.add(SNILS)
     return list(set_SNILS)
+
 
 def generate_fake_db(filename: str, step: int = GENERATION_PART, count_rows: int = COUNT_WRITE):
     """
@@ -63,7 +70,7 @@ def generate_fake_db(filename: str, step: int = GENERATION_PART, count_rows: int
     @param filename: output file
     @param count_row: count rows in db
     """
-    ## for create file, if not exists 
+    # for create file, if not exists
     # TODO :Передать ъто костыль
     with open(filename, "w", encoding="utf-8") as file:
         file.write("")
@@ -76,9 +83,8 @@ def generate_fake_db(filename: str, step: int = GENERATION_PART, count_rows: int
             list_birthday = generate_birthday(count_write)
             for i in range(count_write):
                 file.write(get_pretty_row(
-                     list_names[i], 
-                     list_birthday[i],
-                     list_SNIlS[i]
+                    list_names[i],
+                    list_birthday[i],
+                    list_SNIlS[i]
                 ))
             fake_db_size += step
-
