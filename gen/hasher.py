@@ -1,9 +1,10 @@
 import hashlib
-from utils import COUNT_WRITE
+from .utils import COUNT_WRITE
 
-P = 1000000014000000119 
+P = 1000000014000000119
 
-def hashFunction (surname: str, name: str, middleName: str) -> list:
+
+def hashFunction(surname: str, name: str, middleName: str) -> list:
     encodedName = name.encode('utf-8')
     encodedSurname = surname.encode('utf-8')
     encodedMiddleName = middleName.encode('utf-8')
@@ -49,4 +50,3 @@ class DbHasher:
 
     def __str__(self):
         return str(self.row)
-

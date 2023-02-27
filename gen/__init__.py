@@ -1,6 +1,6 @@
 import os
-from generators import generate_fake_db
-from hasher import COUNT_WRITE, DbHasher
+from .generators import generate_fake_db
+from .hasher import COUNT_WRITE, DbHasher
 
 
 def Anonymize(path: str):
