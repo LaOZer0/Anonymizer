@@ -2,8 +2,8 @@ import random
 import datetime
 from russian_names import RussianNames
 from .utils import *
-from db import generate_fake_database, add_row
-from transliterate import translit
+from db import add_row
+import cyrtranslit
 
 
 GENERATION_PART = 100  # set 1000
@@ -15,10 +15,25 @@ TAILS = [
 SEPARATORS = "._"
 
 
+def random_yes():
+    return bool(random.choice([0, 1]))
+
+
+def c00l_1ine(string: str):
+    result = ""
+    for i in range(len(string)):
+        if string[i] in "lo" and random_yes():
+            result += "1" if string[i] == 'l' else "0"
+        else:
+            result += string[i]
+    return result
+
+
 def generate_email(firstname, lastname):
     count_chars = random.choice([1, len(firstname)])
-    names = [firstname[:count_chars], lastname]
-    names = [translit(n, "ru") for n in names]
+    names = [firstname[:count_chars].lower(), lastname.lower()]
+    names = [c00l_1ine(n) for n in names]
+    names = [cyrtranslit.to_latin(n, "ru") for n in names]
     random.shuffle(names)
     sep = random.choice(SEPARATORS)
     return sep.join(names) + random.choice(TAILS)
@@ -80,7 +95,7 @@ def generate_listSNILS(count: int) -> list:
     return list(set_SNILS)
 
 
-def generate_fake_db(count_rows: int = 1000000):
+def generate_fake_db(count_rows: int = 1000000, step: int = 100):
     """
     generate_fake_db(filename: str, count_rows: int)
     generate fake db to filename csv
@@ -90,7 +105,6 @@ def generate_fake_db(count_rows: int = 1000000):
     # for create file, if not exists
     # TODO :Передать ъто костыль
     fake_db_size = 0
-    step = count_rows // 10000
     for i in range(0, count_rows, step):
         count_write = min(step, count_rows - fake_db_size)
         list_names = generate_name(count_write)
@@ -99,7 +113,7 @@ def generate_fake_db(count_rows: int = 1000000):
             names = list_names[i]
             snils = list_SNIlS[i]
             add_row([
-                names[2], names[0], names[1], names[3],
+                names[0], names[1], names[2], names[3],
                 snils, generate_email(names[2], names[0])
             ])
         fake_db_size += step
