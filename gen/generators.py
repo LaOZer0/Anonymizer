@@ -108,12 +108,8 @@ def generate_fake_db(count_rows: int = 1000000, step: int = 100):
     for i in range(0, count_rows, step):
         count_write = min(step, count_rows - fake_db_size)
         list_names = generate_name(count_write)
-        list_SNIlS = generate_listSNILS(count_write)
-        for i in range(count_write):
-            names = list_names[i]
-            snils = list_SNIlS[i]
+        for names in list_names:
             add_row([
                 names[0], names[1], names[2], names[3],
-                snils
             ])
         fake_db_size += step
